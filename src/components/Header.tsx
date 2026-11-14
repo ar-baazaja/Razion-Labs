@@ -68,7 +68,7 @@ export function Header() {
               ))}
             </ul>
           </nav>
-          <Link href="/contact" className="btn btn--primary btn--sm site-header__cta" data-track="header_discuss_project">
+          <Link href="/#contact" className="btn btn--primary btn--sm site-header__cta" data-track="header_discuss_project">
             Discuss a project
           </Link>
           <button
@@ -96,7 +96,7 @@ export function Header() {
           >
             <nav aria-label="Mobile">
               <ul>
-                {[...primaryNav, { href: "/contact", label: "Contact" }].map((item, i) => (
+                {[...primaryNav, { href: "/#contact", label: "Contact" }].map((item, i) => (
                   <motion.li
                     key={item.href}
                     initial={{ opacity: 0, y: 30 }}

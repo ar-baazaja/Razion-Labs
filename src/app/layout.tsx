@@ -3,7 +3,6 @@ import { Plus_Jakarta_Sans } from "next/font/google";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { JsonLd } from "@/components/Primitives";
-import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { AnalyticsProvider } from "@/components/AnalyticsProvider";
 import { site } from "@/content/site";
 import "./globals.css";
@@ -50,7 +49,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {children}
         </main>
         <Footer />
-        <SmoothScroll />
         <AnalyticsProvider />
         <JsonLd
           data={{

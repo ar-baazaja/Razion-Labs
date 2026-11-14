@@ -1,127 +1,195 @@
-import Link from "next/link";
-import { work } from "@/content/work";
-import { SplitReveal, FadeIn, Appear } from "@/components/motion/Text";
-import { Aurora } from "@/components/fx/Aurora";
-import { HeroPanel } from "@/components/fx/HeroPanel";
-import { LogoStrip } from "@/components/LogoStrip";
-import { ServiceCards } from "@/components/ServiceCard";
-import { services } from "@/content/services";
-import { SpotlightMedia } from "@/components/home/Spotlight";
-import { Delivery } from "@/components/home/Delivery";
-import { WorkRail } from "@/components/home/WorkRail";
-import { Finale } from "@/components/home/Finale";
-import { ProcessMiningDemo } from "@/components/ProcessMiningDemo";
+import { hero, about, services, solutions, projects, steps, stepsNote, contact } from "@/content/home";
+import { site } from "@/content/site";
+import { FadeIn, Appear } from "@/components/motion/Text";
+import { HeroOrb, BannerThreads } from "@/components/fx/Backdrops";
+import { ServiceAccordion } from "@/components/home/ServiceAccordion";
+import { ContactForm } from "@/components/ContactForm";
 
-const SPOTLIGHT = [
-  { t: "Event logs", d: "Case, activity and timestamp from ERP, CRM and ticketing systems." },
-  { t: "Variants", d: "The distinct paths cases actually take." },
-  { t: "Bottlenecks", d: "Measured waiting time between activities." },
-  { t: "Improvement opportunities", d: "Changes ranked by measured impact." },
-];
+/** Pill button with a turquoise circle icon (Bloom-style). */
+function PillLink({ href, label, track, icon = "+" }: { href: string; label: string; track: string; icon?: string }) {
+  return (
+    <a href={href} className="pill-btn" data-track={track}>
+      <span className="pill-btn__icon" aria-hidden="true">
+        {icon}
+      </span>
+      {label}
+    </a>
+  );
+}
 
-/** Homepage section sequence follows requirements §4 (01–07). */
 export default function Home() {
   return (
-    <>
-      {/* 01 — Hero */}
-      <section className="hero" aria-labelledby="hero-title">
-        <Aurora />
-        <div className="wrap hero__inner">
-          <h1 id="hero-title" className="hero__title appear">
-            Engineer <em>intelligence.</em>
+    <div className="frame">
+      {/* Hero: framed panel with the glowing orb */}
+      <section className="b-hero" aria-labelledby="hero-title">
+        <HeroOrb />
+        <div className="b-hero__shade" aria-hidden="true" />
+        <div className="b-hero__content">
+          <h1 id="hero-title" className="b-hero__title appear">
+            {hero.title}
             <br />
-            Transform <em>operations.</em>
+            {hero.accent}
           </h1>
           <Appear delay={0.12}>
-            <p className="hero__sub">
-              Practical AI, process intelligence and enterprise systems, engineered for production and measured against your own
-              operational data.
-            </p>
+            <p className="b-hero__sub">{hero.body}</p>
           </Appear>
-          <Appear delay={0.3} className="cta-row hero__ctas">
-            <Link href="/contact" className="btn btn--primary btn--lg" data-track="hero_discuss_project">
-              Discuss a project <span className="btn__arrow" aria-hidden="true">→</span>
-            </Link>
-            <Link href="#capabilities" className="btn btn--ghost btn--lg" data-track="hero_explore_capabilities">
-              Explore capabilities
-            </Link>
+          <Appear delay={0.22} className="b-hero__ctas">
+            <PillLink href="#contact" label={hero.primary.label} track="hero_discuss_project" />
+            <a href="#services" className="b-link" data-track="hero_explore_capabilities">
+              {hero.secondary.label} →
+            </a>
           </Appear>
-        </div>
-        <div className="wrap">
-          <HeroPanel />
         </div>
       </section>
 
-      <LogoStrip />
-
-      {/* 02 — Core capabilities */}
-      <section className="section" id="capabilities" aria-labelledby="cap-title">
-        <div className="wrap">
-          <header className="head head--center">
-            <p className="kicker">Core capabilities</p>
-            <SplitReveal as="h2" id="cap-title" onView text="Six services." accent="One engineering team." className="h2--mixed" />
-          </header>
-          <ServiceCards items={services} />
-        </div>
-      </section>
-
-      {/* 03 — Process mining spotlight */}
-      <section className="section section--alt" aria-labelledby="pm-title">
-        <div className="wrap">
-          <div className="split">
-            <div className="split__copy">
-              <p className="kicker">Process mining spotlight</p>
-              <SplitReveal as="h2" id="pm-title" onView text="See the process" accent="that actually runs." className="h2--mixed" />
-              <p className="lede">Your systems already record how work flows. We turn those records into a map of the real process.</p>
-              <dl className="defs">
-                {SPOTLIGHT.map((s) => (
-                  <div key={s.t}>
-                    <dt>{s.t}</dt>
-                    <dd>{s.d}</dd>
-                  </div>
-                ))}
-              </dl>
-            </div>
-            <SpotlightMedia />
-          </div>
-          <FadeIn className="spotlight-demo">
-            <ProcessMiningDemo />
+      {/* About */}
+      <section className="b-section" aria-labelledby="about-title">
+        <div className="b-split">
+          <p className="b-label">
+            {about.label}
+            <small>Razion Labs</small>
+          </p>
+          <FadeIn>
+            <h2 id="about-title" className="b-statement">
+              {about.statement}
+            </h2>
           </FadeIn>
         </div>
+        <dl className="b-stats">
+          {about.stats.map((s, i) => (
+            <FadeIn key={s.label} delay={i * 0.08}>
+              <dt>{s.value}</dt>
+              <dd>
+                <b>{s.label}</b>
+                <span>{s.text}</span>
+              </dd>
+            </FadeIn>
+          ))}
+        </dl>
       </section>
 
-      {/* 05 — How we deliver */}
-      <section className="section" aria-labelledby="deliver-title">
-        <div className="wrap split split--top">
-          <div className="split__copy">
-            <p className="kicker">How we deliver</p>
-            <SplitReveal as="h2" id="deliver-title" onView text="Five steps." accent="No black boxes." className="h2--mixed" />
-            <p className="lede">Governance, security and integration are part of every phase, not added at the end.</p>
-          </div>
-          <Delivery />
-        </div>
-      </section>
-
-      {/* 06 — Selected work */}
-      <section className="section section--alt" aria-labelledby="work-title">
-        <div className="wrap">
-          <header className="head head--split">
-            <div>
-              <p className="kicker">Selected work</p>
-              <SplitReveal as="h2" id="work-title" onView text="Built for" accent="real operations." className="h2--mixed" />
+      {/* Services panel */}
+      <section className="b-section b-section--tight" id="services" aria-labelledby="services-title">
+        <FadeIn className="b-panel">
+          <div className="b-panel__head">
+            <div className="b-panel__intro">
+              <p className="b-label b-label--dark">
+                Services
+                <small>Six, one team</small>
+              </p>
+              <PillLink href="#contact" label="Discuss a project" track="services_discuss_project" icon="→" />
             </div>
-            <p className="head__aside">A capabilities showcase until client-approved case studies are available.</p>
-          </header>
-          <WorkRail items={work} />
+            <div>
+              <h2 id="services-title" className="b-panel__title">
+                Find the right engineering support for whatever slows your operations down
+              </h2>
+              <ul className="b-chips" aria-label="Solution areas" id="solutions">
+                {solutions.map((s) => (
+                  <li key={s.name} title={s.text}>
+                    {s.name}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+          <ServiceAccordion items={services} />
+        </FadeIn>
+      </section>
+
+      {/* Projects */}
+      <section className="b-section" id="work" aria-labelledby="work-title">
+        <div className="b-split">
+          <p className="b-label">
+            Projects
+            <small>Capabilities showcase</small>
+          </p>
+          <FadeIn>
+            <h2 id="work-title" className="b-statement">
+              See how we help operations teams remove delays, automate routine work and trust their numbers
+            </h2>
+          </FadeIn>
+        </div>
+        <div className="b-projects">
+          <FadeIn className="b-summary">
+            <p className="b-summary__num">
+              4<small> projects</small>
+            </p>
+            <p className="b-summary__text">Typical engagements we deliver. Client case studies will be added once approved.</p>
+            <PillLink href="#contact" label="Discuss yours" track="projects_discuss" icon="→" />
+          </FadeIn>
+          <ul className="b-cards">
+            {projects.map((p, i) => (
+              <FadeIn as="li" key={p.name} delay={i * 0.06} className="b-card">
+                <div className="b-card__top">
+                  <span>{p.sector}</span>
+                </div>
+                <h3>{p.name}</h3>
+                <p>{p.solution}</p>
+                <p className="b-card__tag">{p.problem}</p>
+              </FadeIn>
+            ))}
+          </ul>
         </div>
       </section>
 
-      {/* 07 — Conversion */}
-      <section className="section" id="contact" aria-labelledby="contact-title">
-        <div className="wrap">
-          <Finale />
+      {/* How we deliver */}
+      <section className="b-section" id="process" aria-labelledby="process-title">
+        <div className="b-split">
+          <p className="b-label">
+            How we deliver
+            <small>Five steps</small>
+          </p>
+          <FadeIn>
+            <h2 id="process-title" className="b-statement">
+              {stepsNote}
+            </h2>
+          </FadeIn>
+        </div>
+        <ol className="b-steps">
+          {steps.map((s, i) => (
+            <FadeIn as="li" key={s.title} delay={i * 0.06}>
+              <span className="b-steps__num">{String(i + 1).padStart(2, "0")}</span>
+              <h3>{s.title}</h3>
+              <p>{s.text}</p>
+            </FadeIn>
+          ))}
+        </ol>
+      </section>
+
+      {/* Banner */}
+      <section className="b-banner" aria-labelledby="banner-title">
+        <BannerThreads />
+        <div className="b-banner__content">
+          <h2 id="banner-title">
+            Engineers ready to
+            <br />
+            start on your process
+          </h2>
+          <PillLink href="#contact" label="Discuss a project" track="banner_discuss_project" />
         </div>
       </section>
-    </>
+
+      {/* Contact */}
+      <section className="b-section" id="contact" aria-labelledby="contact-title">
+        <div className="b-contact">
+          <div className="b-contact__copy">
+            <p className="b-label">
+              Contact
+              <small>Reply within two working days</small>
+            </p>
+            <h2 id="contact-title" className="b-statement">
+              {contact.text}
+            </h2>
+            <p className="finale__mail">
+              Prefer email?{" "}
+              <a href={`mailto:${site.email}`} data-track="contact_email">
+                {site.email}
+              </a>
+            </p>
+          </div>
+          <ContactForm />
+        </div>
+      </section>
+    </div>
   );
 }

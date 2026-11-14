@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { footerNav, site } from "@/content/site";
 import { Logo } from "./Logo";
-import { MotionSwitch } from "./motion/MotionSwitch";
+import { Wordmark } from "./motion/Wordmark";
 
 export function Footer() {
   return (
@@ -31,11 +31,11 @@ export function Footer() {
         </div>
         <div className="footer-bottom">
           <span>
-            © {new Date().getFullYear()} {site.legalName} · {site.registration}
+            © {new Date().getFullYear()} {site.legalName}
           </span>
-          <MotionSwitch />
         </div>
       </div>
+      <Wordmark />
     </footer>
   );
 }

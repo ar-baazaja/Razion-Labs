@@ -23,27 +23,29 @@ const securityHeaders = [
 ];
 
 /**
- * 301 redirects (requirements §8 SEO): common alternative and legacy URLs.
- * Add old-site URLs here when Razion Labs supplies them.
+ * 301 redirects: the site is a single page, so former pages and common
+ * alternative URLs point at the matching home-page section.
  */
 const REDIRECTS: [string, string][] = [
   ["/home", "/"],
   ["/index", "/"],
   ["/index.html", "/"],
-  ["/about-us", "/about"],
-  ["/contact-us", "/contact"],
-  ["/case-studies", "/work"],
-  ["/portfolio", "/work"],
-  ["/industries", "/solutions"],
+  ["/about", "/"],
+  ["/about-us", "/"],
+  ["/services", "/#services"],
+  ["/services/:slug*", "/#services"],
+  ["/solutions", "/#solutions"],
+  ["/solutions/:slug*", "/#solutions"],
+  ["/industries", "/#solutions"],
+  ["/work", "/#work"],
+  ["/case-studies", "/#work"],
+  ["/portfolio", "/#work"],
+  ["/contact", "/#contact"],
+  ["/contact-us", "/#contact"],
   ["/privacy", "/legal/privacy"],
   ["/privacy-policy", "/legal/privacy"],
   ["/cookies", "/legal/cookies"],
   ["/cookie-policy", "/legal/cookies"],
-  ["/services/ai", "/services/ai-engineering"],
-  ["/services/agents", "/services/ai-agents"],
-  ["/services/automation", "/services/intelligent-automation"],
-  ["/services/data", "/services/data-engineering"],
-  ["/services/integration", "/services/custom-software"],
 ];
 
 const nextConfig: NextConfig = {

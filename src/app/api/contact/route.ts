@@ -70,7 +70,7 @@ export async function POST(req: Request) {
         type: "website_inquiry",
         receivedAt: new Date().toISOString(),
         ...data,
-        text: `New inquiry from ${data.name} (${data.company}) about ${data.service}`,
+        text: `New inquiry from ${data.name}${data.company ? ` (${data.company})` : ""}`,
       }),
       signal: AbortSignal.timeout(8000),
     });
