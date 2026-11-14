@@ -43,11 +43,20 @@ npm run build && npm start   # production build
 2. Framework preset: **Next.js** (detected automatically). Leave build command, output directory and install command on their defaults.
 3. Add environment variables (Project → Settings → Environment Variables):
    - `CONTACT_WEBHOOK_URL`: where contact-form inquiries are delivered. Without it, the form shows a friendly error in production.
+   - `NEXT_PUBLIC_ANALYTICS`: set to `vercel` (and enable Web Analytics in the Vercel dashboard) once analytics is approved. Off by default.
    - `NEXT_PUBLIC_SITE_URL`: your custom domain, e.g. `https://razionlabs.com`. Optional: if unset, the Vercel production domain is used for canonical URLs, the sitemap and Open Graph.
 4. Click **Deploy**. Every push to `main` redeploys production; other branches get preview URLs.
 5. To use a custom domain: Project → Settings → Domains, then set `NEXT_PUBLIC_SITE_URL` to it and redeploy.
 
 Requires Node.js 20.9 or newer (Vercel's default runtime satisfies this).
+
+## Operations
+
+- **Analytics (§8):** cookieless Vercel Web Analytics plus conversion events `contact_submit` (service only), `demo_variant_select` (route) and `cta_click` (button label). Events never contain names, emails or messages. Off until `NEXT_PUBLIC_ANALYTICS=vercel`. Add tracking to any new button with `data-track="label"`. Events are also dispatched as `rl:analytics` DOM events for another approved provider.
+- **Redirects (§8):** 301 redirects for common alternative URLs are in `next.config.ts`. Add old-site URLs there before launch.
+- **Dependency updates (§8):** Dependabot opens weekly update pull requests (`.github/dependabot.yml`).
+- **Backup and recovery (§8):** the GitHub repository is the source of truth, and every Vercel deployment is immutable. To recover, use **Instant Rollback** in the Vercel dashboard (Deployments → ⋯ → Promote/Rollback), or revert the commit and push. The site holds no database, and contact inquiries are delivered to the webhook rather than stored.
+- **Hosting, monitoring, DNS and maintenance** are covered by a separate operational agreement (§8 Availability).
 
 ## Environment
 

@@ -18,7 +18,7 @@ export function Finale() {
           <li>Demonstration on request</li>
           <li>
             <span>
-              Or email <a href={`mailto:${site.email}`}>{site.email}</a>
+              Or email <a href={`mailto:${site.email}`} data-track="contact_email">{site.email}</a>
             </span>
           </li>
         </ul>

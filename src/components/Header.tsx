@@ -68,7 +68,7 @@ export function Header() {
               ))}
             </ul>
           </nav>
-          <Link href="/contact" className="btn btn--primary btn--sm site-header__cta">
+          <Link href="/contact" className="btn btn--primary btn--sm site-header__cta" data-track="header_discuss_project">
             Discuss a project
           </Link>
           <button

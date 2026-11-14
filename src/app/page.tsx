@@ -39,10 +39,10 @@ export default function Home() {
             </p>
           </Appear>
           <Appear delay={0.3} className="cta-row hero__ctas">
-            <Link href="/contact" className="btn btn--primary btn--lg">
+            <Link href="/contact" className="btn btn--primary btn--lg" data-track="hero_discuss_project">
               Discuss a project <span className="btn__arrow" aria-hidden="true">→</span>
             </Link>
-            <Link href="#capabilities" className="btn btn--ghost btn--lg">
+            <Link href="#capabilities" className="btn btn--ghost btn--lg" data-track="hero_explore_capabilities">
               Explore capabilities
             </Link>
           </Appear>

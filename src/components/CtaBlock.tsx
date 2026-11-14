@@ -12,10 +12,10 @@ export function CtaBlock({ title = "Discuss a project with an engineer.", servic
             <p className="lede">Book a discovery call or request a demonstration.</p>
           </div>
           <div className="cta-row">
-            <Link href={href} className="btn btn--primary btn--lg">
+            <Link href={href} className="btn btn--primary btn--lg" data-track="cta_discuss_project">
               Discuss a project <span className="btn__arrow" aria-hidden="true">→</span>
             </Link>
-            <Link href="/contact?topic=demo" className="btn btn--ghost btn--lg">
+            <Link href="/contact?topic=demo" className="btn btn--ghost btn--lg" data-track="cta_request_demo">
               Request a demonstration
             </Link>
           </div>

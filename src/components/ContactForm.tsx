@@ -5,6 +5,7 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { LIMITS, SERVICE_OPTIONS, validateContact, type ContactInput, type FieldErrors } from "@/lib/contact";
 import { site } from "@/content/site";
+import { track } from "@/lib/analytics";
 
 type Status = { kind: "idle" | "sending" | "ok" | "error"; message?: string };
 
@@ -101,7 +102,8 @@ export function ContactForm({ defaultService, idPrefix = "cf" }: { defaultServic
       const json = await res.json().catch(() => ({}));
       if (res.ok && json.ok) {
         setStatus({ kind: "ok" });
-        window.dispatchEvent(new CustomEvent("rl:conversion", { detail: { event: "contact_submit" } }));
+        // No personal data: only the chosen service is recorded.
+        track("contact_submit", { service: values.service });
       } else if (json.errors) {
         setErrors(json.errors);
         setStatus({ kind: "idle" });

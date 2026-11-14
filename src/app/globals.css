@@ -1006,6 +1006,17 @@ html.motion-off :is(.scr-list__row, .scr-log__row) { animation: none !important;
 .wcard__services a { position: relative; z-index: 3; display: inline-flex; padding: 0.3rem 0.75rem; border-radius: 999px; border: 1px solid rgb(243 247 247 / .12); color: var(--c-muted); font-size: 0.82rem; text-decoration: none; transition: color .2s, border-color .2s; }
 .wcard__services a:hover { color: var(--c-accent); border-color: var(--c-accent-line); }
 
+/* Demo: improvement opportunity */
+.pm-opp { display: grid; gap: 0.6rem 1.25rem; align-items: center; margin: 1rem 1rem 0; padding: 0.9rem 1.1rem; border-radius: 14px; border: 1px solid var(--c-accent-line); background: rgb(var(--c-accent-rgb) / .06); }
+@media (min-width: 760px) { .pm-opp { grid-template-columns: auto 1fr auto; } }
+.pm-opp__label { justify-self: start; padding: 0.2rem 0.65rem; border-radius: 999px; background: var(--c-accent); color: #03201d; font-size: 0.78rem; font-weight: 700; white-space: nowrap; }
+.pm-opp__body b { font-weight: 600; }
+.pm-opp__body p { color: var(--c-muted); font-size: 0.9rem; }
+.pm-opp__impact { display: grid; gap: 0.1rem; }
+@media (min-width: 760px) { .pm-opp__impact { text-align: right; } }
+.pm-opp__impact b { color: var(--c-accent); font-size: 1.15rem; font-weight: 600; }
+.pm-opp__impact small { color: var(--c-faint); font-size: 0.78rem; max-width: 16rem; }
+
 /* ==========================================================================
    Motion off / reduced motion
    ========================================================================== */

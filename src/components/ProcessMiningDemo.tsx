@@ -1,6 +1,7 @@
 "use client";
 
 import { useId, useMemo, useState } from "react";
+import { track } from "@/lib/analytics";
 
 /* ------------------------------------------------------------------ *
  * Synthetic order-to-cash event log (illustrative, requirements §6). *
@@ -71,6 +72,14 @@ function sampleLog(variant: (typeof VARIANTS)[number]) {
   });
 }
 
+/** Improvement opportunity per bottleneck (requirements §4.03). Illustrative. */
+const OPPORTUNITY: Record<string, { fix: string; how: string }> = {
+  CD: { fix: "Auto-approve low-risk credit checks", how: "Rules plus a credit-score threshold route only risky orders to manual review." },
+  GF: { fix: "Validate invoices before they are sent", how: "Automated checks against the order catch price and address errors that cause corrections." },
+  FH: { fix: "Send e-invoices and earlier payment reminders", how: "Automated reminders and e-invoicing shorten the wait between invoice and payment." },
+  default: { fix: "Automate the slowest hand-off", how: "Target the step with the longest wait first, then re-measure against this baseline." },
+};
+
 export function ProcessMiningDemo() {
   const [selected, setSelected] = useState<"all" | VariantId>("all");
   const groupName = useId();
@@ -92,6 +101,9 @@ export function ProcessMiningDemo() {
   }, [selected]);
 
   const bn = edgeById[view.bottleneck];
+  const opp = OPPORTUNITY[view.bottleneck] ?? OPPORTUNITY.default;
+  const affected = Math.round((view.flow[view.bottleneck] ?? 0) * 100);
+  const saved = bn.wait / 2; // illustrative assumption: the wait is halved
 
   return (
     <div className="demo" data-motion>
@@ -132,7 +144,10 @@ export function ProcessMiningDemo() {
                     name={groupName}
                     value={v.id}
                     checked={selected === v.id}
-                    onChange={() => setSelected(v.id)}
+                    onChange={() => {
+                      setSelected(v.id);
+                      track("demo_variant_select", { route: v.id });
+                    }}
                   />
                   <span className="variant__dot" aria-hidden="true" />
                   <span>{v.name}</span>
@@ -178,6 +193,18 @@ export function ProcessMiningDemo() {
               </dd>
             </div>
           </dl>
+
+          <div className="pm-opp" aria-live="polite">
+            <span className="pm-opp__label">Improvement opportunity</span>
+            <div className="pm-opp__body">
+              <b>{opp.fix}</b>
+              <p>{opp.how}</p>
+            </div>
+            <div className="pm-opp__impact">
+              <b>−{fmt(saved)} days</b>
+              <small>for {affected}% of these orders, if this wait were halved</small>
+            </div>
+          </div>
 
           <div className="pm__graph" tabIndex={0} role="region" aria-label="Process graph, scrollable">
             <svg viewBox="0 0 900 280" role="img" aria-labelledby="pm-title">

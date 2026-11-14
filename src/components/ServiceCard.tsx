@@ -7,7 +7,9 @@ export function ServiceCard({ s, delay = 0 }: { s: Service; delay?: number }) {
   return (
     <FadeIn as="li" delay={delay} className="scard">
       <h3 className="scard__name">
-        <Link href={`/services/${s.slug}`}>{s.name}</Link>
+        <Link href={`/services/${s.slug}`} data-track={`service_card_${s.slug}`}>
+          {s.name}
+        </Link>
       </h3>
       <p className="scard__desc">{s.short}</p>
       <div className="scard__outcome">
