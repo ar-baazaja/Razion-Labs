@@ -129,8 +129,7 @@ html:not(.js) .fx { opacity: 1 !important; transform: none !important; }
 .site-header.is-scrolled { background: rgb(8 12 14 / 0.85); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom-color: var(--c-line); }
 .site-header__inner { height: 100%; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; }
 .logo { display: inline-flex; align-items: center; gap: 0.6rem; text-decoration: none; font-family: var(--f-display); font-weight: 600; font-size: 1.06rem; letter-spacing: -0.02em; min-height: 44px; position: relative; z-index: 2; }
-.logo__mark { width: 28px; height: 28px; }
-.logo__labs { color: var(--c-muted); font-weight: 400; }
+.logo__img { display: block; height: 26px; width: auto; }
 .nav { display: none; }
 .nav ul { list-style: none; display: flex; gap: 0.25rem; }
 .nav a { position: relative; display: inline-flex; align-items: center; min-height: 40px; padding-inline: 0.9rem; text-decoration: none; color: var(--c-muted); font-size: 0.97rem; border-radius: 999px; transition: color .2s; }
