@@ -113,3 +113,81 @@ export const contact = {
   title: "Discuss a project",
   text: "Tell us about the process or system you want to improve. An engineer replies within two working days.",
 };
+
+/** Hero showcase tabs (ElevenLabs-style switcher). */
+export const showcase = [
+  {
+    id: "mining",
+    label: "Process mining",
+    title: "See where work actually waits",
+    text: "Your system logs, replayed as a live map of how orders really flow.",
+  },
+  {
+    id: "agents",
+    label: "AI agents",
+    title: "Routine requests, handled end to end",
+    text: "Assistants that act in your systems and ask a person before anything important.",
+  },
+  {
+    id: "automation",
+    label: "Automation",
+    title: "Documents in, clean data out",
+    text: "Invoices read, matched and entered, with anything unclear sent to a person.",
+  },
+] as const;
+
+/** Systems we connect to (shown as plain names, not logos). */
+export const systems = [
+  "SAP",
+  "Salesforce",
+  "ServiceNow",
+  "Microsoft 365",
+  "Dynamics 365",
+  "Oracle",
+  "Workday",
+  "HubSpot",
+  "Snowflake",
+  "Databricks",
+  "PostgreSQL",
+  "Azure",
+  "AWS",
+  "Google Cloud",
+  "Jira",
+  "Zendesk",
+];
+
+/** Alternating feature rows (Linq-style), one per solution area. */
+export const features = [
+  {
+    id: "operations",
+    kicker: "Operations optimization",
+    title: "Find the wait. Remove the wait.",
+    text: "Orders, cases and requests leave a trail in your systems. We replay that trail to show the exact step where work stalls, and fix the biggest delays first.",
+    points: ["Built from your own event logs", "Delays ranked by cost", "Before-and-after measured"],
+    visual: "bars",
+  },
+  {
+    id: "service",
+    kicker: "Customer service",
+    title: "Answers before agents search.",
+    text: "Routine requests are resolved on the spot, and your team gets the right answer, with its source, before they go looking for it.",
+    points: ["Works in the tools you use", "Human approval on anything sensitive", "Every answer shows its source"],
+    visual: "chat",
+  },
+  {
+    id: "search",
+    kicker: "Enterprise search",
+    title: "Ask once. Get the exact section.",
+    text: "One place to ask across documents, wikis and tickets. Answers quote the current version, and only show what each person is allowed to see.",
+    points: ["Respects existing permissions", "Cites the exact paragraph", "Always the latest version"],
+    visual: "search",
+  },
+  {
+    id: "forecasting",
+    kicker: "Forecasting",
+    title: "Plan with numbers you trust.",
+    text: "Demand, workload and capacity forecasts built on clean, refreshed data, and explained in plain terms your planners can act on.",
+    points: ["Clean data, refreshed on schedule", "Ranges, not single guesses", "Explained in plain language"],
+    visual: "forecast",
+  },
+] as const;

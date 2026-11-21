@@ -6,7 +6,7 @@ export function Logo() {
     <Link href="/" className="logo" aria-label="Razion Labs, home">
       <Image
         className="logo__img"
-        src="/razion-labs-logo.png"
+        src="/logo-razion-labs.png"
         alt=""
         width={587}
         height={160}

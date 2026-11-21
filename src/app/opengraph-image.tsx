@@ -15,22 +15,22 @@ export default function OgImage() {
           flexDirection: "column",
           justifyContent: "space-between",
           padding: 72,
-          background: "#080C0E",
+          background: "#FAFAF8",
           backgroundImage:
-            "linear-gradient(rgba(165,181,184,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(165,181,184,0.12) 1px, transparent 1px)",
+            "linear-gradient(rgba(10,10,10,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(10,10,10,0.06) 1px, transparent 1px)",
           backgroundSize: "64px 64px",
-          color: "#F3F7F7",
+          color: "#0A0A0A",
           fontFamily: "sans-serif",
         }}
       >
         <div style={{ display: "flex", fontSize: 30, letterSpacing: -0.5 }}>
-          Razion <span style={{ color: "#A5B5B8", marginLeft: 10 }}>Labs</span>
+          Razion <span style={{ color: "#565D60", marginLeft: 10 }}>Labs</span>
         </div>
         <div style={{ display: "flex", flexDirection: "column", fontSize: 84, fontWeight: 700, lineHeight: 1.05, letterSpacing: -3 }}>
           <span>Engineer intelligence.</span>
-          <span style={{ color: "#20D6C7" }}>Transform operations.</span>
+          <span style={{ color: "#00A99A" }}>Transform operations.</span>
         </div>
-        <div style={{ display: "flex", fontSize: 24, color: "#A5B5B8" }}>
+        <div style={{ display: "flex", fontSize: 24, color: "#565D60" }}>
           AI engineering · Process mining · Intelligent automation
         </div>
       </div>

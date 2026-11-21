@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { JsonLd } from "@/components/Primitives";
@@ -7,15 +7,9 @@ import { AnalyticsProvider } from "@/components/AnalyticsProvider";
 import { site } from "@/content/site";
 import "./globals.css";
 
-// One geometric family with a true italic for accent words (display + body).
-const display = Plus_Jakarta_Sans({
-  subsets: ["latin", "latin-ext"],
-  weight: ["300", "400", "500", "600"],
-  style: ["normal", "italic"],
-  variable: "--font-display",
-  display: "swap",
-});
-const body = Plus_Jakarta_Sans({ subsets: ["latin", "latin-ext"], weight: ["400", "500", "600"], variable: "--font-body", display: "swap" });
+// Geist for display and body, Geist Mono for small technical labels.
+const display = Geist({ subsets: ["latin", "latin-ext"], variable: "--font-display", display: "swap" });
+const mono = Geist_Mono({ subsets: ["latin"], weight: ["400", "500"], variable: "--font-mono", display: "swap" });
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -29,13 +23,13 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#080C0E",
-  colorScheme: "dark",
+  themeColor: "#FAFAF8",
+  colorScheme: "light",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang={site.locale} className={`${display.variable} ${body.variable}`} suppressHydrationWarning>
+    <html lang={site.locale} className={`${display.variable} ${mono.variable}`} suppressHydrationWarning>
       <head>
         {/* Marks JS as available before paint so no-JS fallbacks only apply without it. */}
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
