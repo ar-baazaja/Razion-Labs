@@ -1,11 +1,10 @@
-import { hero, about, services, projects, steps, stepsNote, contact, systems, features } from "@/content/home";
+import { hero, about, services, projects, steps, stepsNote, systems, features } from "@/content/home";
 import { site } from "@/content/site";
 import { FadeIn, Appear } from "@/components/motion/Text";
 import { BannerThreads } from "@/components/fx/Backdrops";
 import { Showcase } from "@/components/home/Showcase";
 import { ServiceTabs } from "@/components/home/ServiceTabs";
 import { featureVisuals } from "@/components/home/Visuals";
-import { ContactForm } from "@/components/ContactForm";
 
 export default function Home() {
   return (
@@ -16,12 +15,6 @@ export default function Home() {
         <div className="wrap">
           <div className="hero__top">
             <div>
-              <Appear>
-                <p className="badge">
-                  <span className="badge__dot" aria-hidden="true" />
-                  {hero.badge}
-                </p>
-              </Appear>
               <h1 id="hero-title" className="hero__title appear" style={{ animationDelay: "0.05s" }}>
                 {hero.title}
                 <br />
@@ -68,7 +61,6 @@ export default function Home() {
       <section className="section about" aria-labelledby="about-title">
         <div className="wrap">
           <FadeIn>
-            <p className="mono-label mono-label--center">{about.label}</p>
             <h2 id="about-title" className="statement">
               {about.statement}
             </h2>
@@ -91,11 +83,10 @@ export default function Home() {
       <section className="section" id="solutions" aria-labelledby="solutions-title">
         <div className="wrap">
           <FadeIn className="section-head">
-            <p className="mono-label">Solutions</p>
             <h2 id="solutions-title">
               Four places operations lose time.
               <br />
-              <span className="muted-ink">Four ways we win it back.</span>
+              <span className="accent">Four ways we win it back.</span>
             </h2>
           </FadeIn>
           <div className="rows">
@@ -104,7 +95,6 @@ export default function Home() {
               return (
                 <article key={f.id} className={`row${i % 2 ? " row--flip" : ""}`} aria-labelledby={`f-${f.id}`}>
                   <FadeIn className="row__copy">
-                    <p className="mono-label">{f.kicker}</p>
                     <h3 id={`f-${f.id}`}>{f.title}</h3>
                     <p>{f.text}</p>
                     <ul className="ticks">
@@ -128,8 +118,9 @@ export default function Home() {
         <div className="wrap">
           <FadeIn className="section-head section-head--split">
             <div>
-              <p className="mono-label">Services</p>
-              <h2 id="services-title">Six services. One engineering team.</h2>
+              <h2 id="services-title">
+                Six services. <span className="accent">One engineering team.</span>
+              </h2>
             </div>
             <p>From the first look at your data to software your team keeps, the same engineers carry the work through.</p>
           </FadeIn>
@@ -144,8 +135,9 @@ export default function Home() {
         <div className="wrap">
           <FadeIn className="section-head section-head--split">
             <div>
-              <p className="mono-label">Projects</p>
-              <h2 id="work-title">The kind of work we deliver.</h2>
+              <h2 id="work-title">
+                The kind of work <span className="accent">we deliver.</span>
+              </h2>
             </div>
             <p>Typical engagements, described plainly. Client case studies will be added once approved.</p>
           </FadeIn>
@@ -181,8 +173,9 @@ export default function Home() {
         <div className="wrap">
           <FadeIn className="section-head section-head--split">
             <div>
-              <p className="mono-label">How we deliver</p>
-              <h2 id="process-title">Five steps, measured from day one.</h2>
+              <h2 id="process-title">
+                Five steps, <span className="accent">measured from day one.</span>
+              </h2>
             </div>
             <p>{stepsNote}</p>
           </FadeIn>
@@ -199,46 +192,19 @@ export default function Home() {
       </section>
 
       {/* Black call-to-action band */}
-      <section className="wrap" aria-labelledby="banner-title">
-        <div className="banner">
+      <section className="wrap banner-section" aria-labelledby="banner-title">
+        <div className="banner" id="contact">
           <BannerThreads />
           <div className="banner__content">
-            <p className="mono-label mono-label--on-dark">Ready when you are</p>
             <h2 id="banner-title">
               Engineers ready to start <span className="hl hl--dark">on your process.</span>
             </h2>
             <div className="cta-row">
-              <a href="#contact" className="btn btn--accent" data-track="banner_discuss_project">
-                Discuss a project
-              </a>
               <a href={`mailto:${site.email}`} className="btn btn--on-dark" data-track="banner_email">
                 {site.email}
               </a>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Contact */}
-      <section className="section" id="contact" aria-labelledby="contact-title">
-        <div className="wrap contact">
-          <div className="contact__copy">
-            <p className="mono-label">Contact</p>
-            <h2 id="contact-title">{contact.title}</h2>
-            <p className="contact__lead">{contact.text}</p>
-            <ul className="ticks">
-              <li>An engineer replies, not a sales team</li>
-              <li>Reply within two working days</li>
-              <li>No obligation, no lengthy forms</li>
-            </ul>
-            <p className="contact__mail">
-              Prefer email?{" "}
-              <a href={`mailto:${site.email}`} data-track="contact_email">
-                {site.email}
-              </a>
-            </p>
-          </div>
-          <ContactForm />
         </div>
       </section>
     </>

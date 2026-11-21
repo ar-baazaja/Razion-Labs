@@ -1,14 +1,16 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Sora } from "next/font/google";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { JsonLd } from "@/components/Primitives";
 import { AnalyticsProvider } from "@/components/AnalyticsProvider";
 import { site } from "@/content/site";
+import { themeInitScript } from "@/lib/theme";
 import "./globals.css";
 
-// Geist for display and body, Geist Mono for small technical labels.
-const display = Geist({ subsets: ["latin", "latin-ext"], variable: "--font-display", display: "swap" });
+// Sora for headings (geometric, echoes the logo), Geist for body copy, Geist Mono for small labels.
+const display = Sora({ subsets: ["latin", "latin-ext"], variable: "--font-display", display: "swap" });
+const body = Geist({ subsets: ["latin", "latin-ext"], variable: "--font-body", display: "swap" });
 const mono = Geist_Mono({ subsets: ["latin"], weight: ["400", "500"], variable: "--font-mono", display: "swap" });
 
 export const metadata: Metadata = {
@@ -23,16 +25,19 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#FAFAF8",
-  colorScheme: "light",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#FAFAF8" },
+    { media: "(prefers-color-scheme: dark)", color: "#070A0B" },
+  ],
+  colorScheme: "light dark",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang={site.locale} className={`${display.variable} ${mono.variable}`} suppressHydrationWarning>
+    <html lang={site.locale} className={`${display.variable} ${body.variable} ${mono.variable}`} suppressHydrationWarning>
       <head>
         {/* Marks JS as available before paint so no-JS fallbacks only apply without it. */}
-        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js');" + themeInitScript }} />
       </head>
       <body>
         <a href="#main" className="skip-link">

@@ -71,7 +71,6 @@ export function ServiceTabs({ items }: { items: Item[] }) {
             <svg className="stabs__glyph" viewBox="0 0 48 48" aria-hidden="true">
               <path d={GLYPHS[active % GLYPHS.length]} />
             </svg>
-            <p className="mono-label">Service {String(active + 1).padStart(2, "0")}</p>
             <h3>{s.name}</h3>
             <p className="stabs__text">{s.text}</p>
             <p className="stabs__outcome">

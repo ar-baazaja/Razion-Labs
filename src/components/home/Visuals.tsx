@@ -1,152 +1,209 @@
 /**
- * Illustrative product visuals. Pure markup + CSS animation (see globals.css,
- * "Visuals"), so they render on the server and cost no client JavaScript.
+ * Illustrative product visuals. Pure markup + CSS (see globals.css, "Visuals"),
+ * so they render on the server and cost no client JavaScript.
  * All figures are example data, not client results.
  */
 
-const FLOW_NODES = [
-  { id: "order", label: "Order placed", x: 70, y: 176 },
-  { id: "credit", label: "Credit check", x: 205, y: 84 },
-  { id: "approve", label: "Approval", x: 340, y: 176, hot: true },
-  { id: "invoice", label: "Invoice sent", x: 475, y: 84 },
-  { id: "paid", label: "Paid", x: 580, y: 176 },
-];
-const FLOW_EDGES = [
-  { d: "M70 176 C 120 176, 150 84, 205 84", w: 5 },
-  { d: "M205 84 C 260 84, 285 176, 340 176", w: 5 },
-  { d: "M340 176 C 395 176, 420 84, 475 84", w: 4 },
-  { d: "M475 84 C 525 84, 545 176, 580 176", w: 4 },
-];
-
-/** Process map with tokens flowing through and the bottleneck pulsing. */
-export function ProcessMap() {
+/** Plain application panel: a title bar and a body, like a screenshot of real software. */
+function Panel({
+  title,
+  meta,
+  className = "",
+  label,
+  children,
+}: {
+  title: string;
+  meta?: string;
+  className?: string;
+  label: string;
+  children: React.ReactNode;
+}) {
   return (
-    <figure className="vz vz-flow">
-      <svg viewBox="0 0 650 260" role="img" aria-label="Example process map: orders wait longest at the approval step">
-        <defs>
-          <pattern id="vz-dots" width="18" height="18" patternUnits="userSpaceOnUse">
-            <circle cx="1" cy="1" r="1" className="vz-flow__dot" />
-          </pattern>
-        </defs>
-        <rect width="650" height="260" fill="url(#vz-dots)" />
-        {/* Rework loop: approval back to credit check */}
-        <path className="vz-flow__loop" d="M340 196 C 330 250, 215 250, 205 104" />
-        <text className="vz-flow__loopLabel" x="250" y="246">
-          rework 18%
-        </text>
-        {FLOW_EDGES.map((e, i) => (
-          <g key={i}>
-            <path className="vz-flow__edge" d={e.d} strokeWidth={e.w} />
-            <path className="vz-flow__run" d={e.d} />
-            {[0, 1, 2].map((k) => (
-              <circle key={k} r="4.5" className="vz-flow__token">
-                <animateMotion dur="3.6s" begin={`-${k * 1.2 + i * 0.3}s`} repeatCount="indefinite" path={e.d} />
-              </circle>
-            ))}
-          </g>
-        ))}
-        {FLOW_NODES.map((n) => (
-          <g key={n.id} className={`vz-flow__node${n.hot ? " is-hot" : ""}`} transform={`translate(${n.x} ${n.y})`}>
-            {n.hot && <circle className="vz-flow__pulse" r="30" />}
-            <circle r="15" className="vz-flow__core" />
-            <text y={n.y < 120 ? -26 : 36} textAnchor="middle">
-              {n.label}
-            </text>
-          </g>
-        ))}
-        <g className="vz-flow__badge" transform="translate(272 18)">
-          <rect width="136" height="34" rx="17" />
-          <text x="68" y="22" textAnchor="middle">
-            Waits 4.2 days
-          </text>
-        </g>
-        <path className="vz-flow__pointer" d="M340 52 L340 140" />
-      </svg>
-      <figcaption className="vz-stats">
-        <span>
-          <b>12,480</b> cases
-        </span>
-        <span>
-          <b>9.1 days</b> median cycle
-        </span>
-        <span className="is-hot">
-          <b>46%</b> of time spent waiting for approval
-        </span>
-      </figcaption>
+    <figure className={`vz ui ${className}`} role="img" aria-label={label}>
+      <div className="ui__bar">
+        <span className="ui__title">{title}</span>
+        {meta && <span className="ui__meta">{meta}</span>}
+      </div>
+      <div className="ui__body">{children}</div>
     </figure>
   );
 }
 
-/** Agent conversation with a tool step and a human approval. */
-export function AgentChat({ compact = false }: { compact?: boolean }) {
+const FLOW = [
+  { name: "Order placed", count: "12,480" },
+  { wait: "0.4 d" },
+  { name: "Credit check", count: "12,480" },
+  { wait: "4.2 d", hot: true },
+  { name: "Approval", count: "14,726", hot: true, note: "18% sent back to credit check" },
+  { wait: "0.8 d" },
+  { name: "Invoice sent", count: "12,310" },
+  { wait: "3.7 d" },
+  { name: "Paid", count: "11,962" },
+] as const;
+
+/** Process map as a process-mining tool would show it: steps, case counts, median waits. */
+export function ProcessMap() {
   return (
-    <div className={`vz vz-chat${compact ? " vz-chat--compact" : ""}`} role="img" aria-label="Example: an assistant looks up an order and asks a manager to approve a change">
-      <div className="vz-chat__msg vz-chat__msg--user" style={{ ["--d" as string]: "0s" }}>
-        Can you move order 48213 to Friday delivery?
-      </div>
-      <div className="vz-chat__step" style={{ ["--d" as string]: "0.6s" }}>
-        <span className="vz-check" aria-hidden="true" /> Looked up order in ERP
-      </div>
-      <div className="vz-chat__msg vz-chat__msg--bot" style={{ ["--d" as string]: "1.2s" }}>
-        It ships Thursday. Changing the date needs a manager&apos;s OK, so I&apos;ve asked for it.
-      </div>
-      <div className="vz-chat__approval" style={{ ["--d" as string]: "1.9s" }}>
+    <Panel
+      title="Order-to-cash"
+      meta="Last 90 days"
+      className="ui--flow"
+      label="Example process map: orders wait a median of 4.2 days before approval, 46% of the cycle"
+    >
+      <ol className="pf">
+        {FLOW.map((s, i) =>
+          "wait" in s ? (
+            <li key={i} className={`pf__edge${"hot" in s ? " is-hot" : ""}`}>
+              <span>{s.wait}</span>
+              {"hot" in s && <em>median wait</em>}
+            </li>
+          ) : (
+            <li key={i} className={`pf__node${"hot" in s ? " is-hot" : ""}`}>
+              <b>{s.name}</b>
+              <span>{s.count}</span>
+              {"note" in s && <small>{s.note}</small>}
+            </li>
+          ),
+        )}
+      </ol>
+      <dl className="kv">
         <div>
-          <small>Approval request</small>
-          <b>Change delivery to Friday</b>
+          <dt>Cases</dt>
+          <dd>12,480</dd>
         </div>
-        <span className="vz-chat__ok">Approved</span>
-      </div>
-      {!compact && (
-        <div className="vz-chat__msg vz-chat__msg--bot" style={{ ["--d" as string]: "2.6s" }}>
-          Done. Friday delivery is confirmed and the customer has been notified.
+        <div>
+          <dt>Median cycle</dt>
+          <dd>9.1 days</dd>
         </div>
-      )}
-      <div className="vz-chat__typing" aria-hidden="true">
-        <i />
-        <i />
-        <i />
-      </div>
-    </div>
+        <div className="is-hot">
+          <dt>Waiting for approval</dt>
+          <dd>
+            46%<span className="kv__bar" aria-hidden="true"><i style={{ width: "46%" }} /></span>
+          </dd>
+        </div>
+        <div>
+          <dt>Rework</dt>
+          <dd>18%</dd>
+        </div>
+      </dl>
+    </Panel>
   );
 }
 
-/** Invoice being read and its fields extracted. */
+/** Service-desk ticket where an assistant acts and a manager approves. */
+export function AgentChat({ compact = false }: { compact?: boolean }) {
+  return (
+    <Panel
+      title="Service desk"
+      meta="Ticket 48213"
+      className="ui--ticket"
+      label="Example: an assistant looks up an order and a manager approves a delivery change"
+    >
+      <ol className="tk">
+        <li className="tk__msg">
+          <span className="tk__av">C</span>
+          <div>
+            <p className="tk__who">
+              Customer <time>09:41</time>
+            </p>
+            <p>Can you move order 48213 to Friday delivery?</p>
+          </div>
+        </li>
+        <li className="tk__log">Assistant looked up order 48213 in ERP</li>
+        <li className="tk__msg">
+          <span className="tk__av tk__av--bot">A</span>
+          <div>
+            <p className="tk__who">
+              Assistant <time>09:41</time>
+            </p>
+            <p>It ships Thursday. Changing the date needs a manager&apos;s approval, so I&apos;ve requested it.</p>
+          </div>
+        </li>
+        <li className="tk__approval">
+          <div>
+            <b>Change delivery date to Friday</b>
+            <span>Requested by Assistant · needs Ops lead</span>
+          </div>
+          <div className="tk__btns" aria-hidden="true">
+            <span className="tk__btn">Decline</span>
+            <span className="tk__btn tk__btn--on">Approved</span>
+          </div>
+        </li>
+        {!compact && (
+          <li className="tk__msg">
+            <span className="tk__av tk__av--bot">A</span>
+            <div>
+              <p className="tk__who">
+                Assistant <time>09:44</time>
+              </p>
+              <p>Done. Friday delivery is confirmed and the customer has been notified.</p>
+            </div>
+          </li>
+        )}
+      </ol>
+    </Panel>
+  );
+}
+
+/** Invoice intake: document preview next to the extracted fields. */
 export function InvoiceExtract() {
   const fields = [
-    { k: "Supplier", v: "Nordline Components" },
-    { k: "Invoice no.", v: "INV-20931" },
-    { k: "PO match", v: "PO-7741" },
-    { k: "Total", v: "€12,480.00" },
+    { k: "Supplier", v: "Nordline Components", s: "Matched" },
+    { k: "Invoice no.", v: "INV-20931", s: "Read" },
+    { k: "PO", v: "PO-7741", s: "Matched" },
+    { k: "Total", v: "€12,480.00", s: "Matches PO" },
+    { k: "VAT ID", v: "RO 1?48 2209", s: "Review", review: true },
   ];
   return (
-    <div className="vz vz-invoice" role="img" aria-label="Example: an invoice is read and its fields entered automatically, with one field sent for review">
-      <div className="vz-invoice__doc">
-        <div className="vz-invoice__head">
-          <span />
-          <span />
+    <Panel
+      title="Invoice intake"
+      meta="From email · 2 min ago"
+      className="ui--invoice"
+      label="Example: an invoice is read and its fields entered automatically, with one unclear field sent to a person"
+    >
+      <div className="inv">
+        <div className="inv__doc" aria-hidden="true">
+          <div className="inv__top">
+            <b>INVOICE</b>
+            <span>INV-20931</span>
+          </div>
+          <p className="inv__from">
+            Nordline Components
+            <br />
+            Str. Fabricii 12, Cluj
+          </p>
+          <div className="inv__rows">
+            <span>M8 bolts ×2000</span>
+            <span>€4,200</span>
+            <span>Brackets ×600</span>
+            <span>€5,880</span>
+            <span>Freight</span>
+            <span>€2,400</span>
+          </div>
+          <div className="inv__total">
+            <span>Total</span>
+            <b>€12,480.00</b>
+          </div>
         </div>
-        {Array.from({ length: 7 }).map((_, i) => (
-          <div key={i} className="vz-invoice__line" style={{ width: `${[92, 70, 84, 60, 88, 52, 76][i]}%` }} />
-        ))}
-        <div className="vz-invoice__total" />
-        <div className="vz-invoice__scan" aria-hidden="true" />
+        <table className="inv__fields">
+          <tbody>
+            {fields.map((f) => (
+              <tr key={f.k} className={f.review ? "is-review" : undefined}>
+                <th scope="row">{f.k}</th>
+                <td>{f.v}</td>
+                <td>
+                  <span className={`st${f.review ? " st--review" : ""}`}>{f.s}</span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
-      <ul className="vz-invoice__fields">
-        {fields.map((f, i) => (
-          <li key={f.k} style={{ ["--d" as string]: `${0.5 + i * 0.45}s` }}>
-            <small>{f.k}</small>
-            <b>{f.v}</b>
-            <span className="vz-check" aria-hidden="true" />
-          </li>
-        ))}
-        <li className="is-review" style={{ ["--d" as string]: "2.3s" }}>
-          <small>VAT ID</small>
-          <b>Unclear scan</b>
-          <span className="vz-tag">Sent to a person</span>
-        </li>
-      </ul>
-    </div>
+      <div className="inv__foot" aria-hidden="true">
+        <span>4 of 5 fields entered</span>
+        <span className="tk__btn tk__btn--on">Sent to a person</span>
+      </div>
+    </Panel>
   );
 }
 

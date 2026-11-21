@@ -62,7 +62,6 @@ export function Showcase() {
             className="showcase__tab"
             onClick={() => pick(i)}
           >
-            <span className={`showcase__dot showcase__dot--${s.id}`} aria-hidden="true" />
             {s.label}
             {i === active && rotating && <span key={active} className="showcase__progress" style={{ animationDuration: `${ROTATE_MS}ms` }} aria-hidden="true" />}
           </button>
@@ -80,7 +79,6 @@ export function Showcase() {
             transition={{ duration: 0.4, ease: [0.2, 0.7, 0.2, 1] }}
           >
             <div className="showcase__copy">
-              <p className="mono-label">0{active + 1} / 0{showcase.length}</p>
               <h3>{item.title}</h3>
               <p>{item.text}</p>
             </div>

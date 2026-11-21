@@ -50,6 +50,8 @@ const REDIRECTS: [string, string][] = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  // Hide the Next.js "N" indicator during local development (it never shows in production).
+  devIndicators: false,
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },

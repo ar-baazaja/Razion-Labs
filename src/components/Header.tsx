@@ -6,6 +6,7 @@ import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/
 import { useEffect, useId, useState } from "react";
 import { primaryNav } from "@/content/site";
 import { Logo } from "./Logo";
+import { ThemeToggle } from "./ThemeToggle";
 
 const EASE = [0.2, 0.7, 0.2, 1] as const;
 
@@ -68,19 +69,22 @@ export function Header() {
               ))}
             </ul>
           </nav>
-          <Link href="/#contact" className="btn btn--primary btn--sm site-header__cta" data-track="header_discuss_project">
-            Discuss a project
-          </Link>
-          <button
-            type="button"
-            className="menu-btn"
-            aria-expanded={open}
-            aria-controls={menuId}
-            onClick={() => setOpen((v) => !v)}
-          >
-            <span className="menu-btn__icon" aria-hidden="true" />
-            <span className="visually-hidden">{open ? "Close menu" : "Open menu"}</span>
-          </button>
+          <div className="site-header__actions">
+            <ThemeToggle />
+            <Link href="/#contact" className="btn btn--primary btn--sm site-header__cta" data-track="header_discuss_project">
+              Discuss a project
+            </Link>
+            <button
+              type="button"
+              className="menu-btn"
+              aria-expanded={open}
+              aria-controls={menuId}
+              onClick={() => setOpen((v) => !v)}
+            >
+              <span className="menu-btn__icon" aria-hidden="true" />
+              <span className="visually-hidden">{open ? "Close menu" : "Open menu"}</span>
+            </button>
+          </div>
         </div>
       </motion.header>
 
